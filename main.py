@@ -1,4 +1,5 @@
 from telnetlib import Telnet
+from pathlib import Path
 import re
 import requests
 
@@ -28,7 +29,11 @@ def download(filename):
     print("Downloading " + filename + "...")
     url = "http://192.168.42.1/DCIM/100MEDIA/" + filename
     r = requests.get(url)
-    open("~/ghost-videos/" + filename).write(r.content)
+    path = str(Path.home()) + "/ghost-videos/"
+    Path(path).mkdir(parents=True, exist_ok=True)
+    f = open(path + filename, "wb+")
+    f.write(r.content)
+    f.close()
     print('Finished!')
 
 
